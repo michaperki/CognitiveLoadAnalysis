@@ -38,7 +38,7 @@ CognitiveLoadAnalysis is an end-to-end machine learning solution for predicting 
 
 1. **Clone the repository:**
    ```bash
-   git clone https://your-repo-url.git
+   git clone https://github.com/michaperki/CognitiveLoadAnalysis.git
    cd CognitiveLoadAnalysis
    ```
 2. **Create and activate a virtual environment:**

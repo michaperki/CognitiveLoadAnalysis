@@ -1,0 +1,79 @@
+# Cognitive Load Analysis Configuration
+
+# Data configuration
+data:
+  file_path: "../pre_proccessed_table_data.parquet"
+  target_column: "avg_tlx_quantile"
+  id_column: "pilot_id"
+  excluded_columns: []
+
+# Feature engineering configuration
+features:
+  core_features: true
+  turbulence_interaction: true
+  pilot_normalized: true
+  polynomial_features: true
+  signal_derivatives: false  # Not using time series features
+  signal_ratios: true
+  experience_features: true
+  frequency_domain: false    # Not using time series features
+
+# Feature selection configuration
+feature_selection:
+  method: "combined"  # Options: combined, rf, permutation, correlation, gradient_boosting, rfe
+  n_features: 40
+  use_shap: true
+
+# Model configuration
+model:
+  type: "gb"  # Options: rf, gb, xgb, lgb, nn, elastic, svr
+  optimize_hyperparameters: true
+  n_trials: 20
+  
+  # Default hyperparameters for gradient boosting
+  gb_params:
+    n_estimators: 299
+    learning_rate: 0.045
+    max_depth: 5
+    min_samples_split: 20
+    min_samples_leaf: 1
+    subsample: 0.85
+
+# Validation configuration
+validation:
+  test_size: 0.2
+  random_seed: 42
+  group_kfold_splits: 5
+  leave_one_pilot_out: true  # New validation strategy
+  generate_learning_curves: true  # For overfitting detection
+  permutation_test: true  # For checking chance-level performance
+  
+  # Statistical significance testing
+  significance_testing: true
+  alpha: 0.05  # Significance level
+
+# Analysis configuration
+analysis:
+  analyze_by_pilot_category: true
+  analyze_by_turbulence: true
+  analyze_feature_importance: true
+  error_analysis: true
+
+# Visualization configuration
+visualization:
+  plot_target_distribution: true
+  plot_feature_importance: true
+  plot_learning_curves: true
+  plot_model_comparison: true
+  plot_residuals: true  # New for error analysis
+  plot_error_distribution: true  # New for error analysis
+  plot_confusion_matrix: false  # For classification tasks only
+
+# Output configuration
+output:
+  base_dir: "output"
+  save_models: true
+  save_feature_importance: true
+  save_validation_results: true
+  generate_report: true
+  generate_paper: false

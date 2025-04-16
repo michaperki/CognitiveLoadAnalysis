@@ -12,6 +12,20 @@ This pipeline analyzes physiological data to predict cognitive load (mental effo
 
 The pipeline implements complete feature engineering, model training, evaluation with statistical significance testing, and comprehensive HTML reporting.
 
+## Data Preparation (REQUIRED FIRST STEP)
+
+**Important**: Before running the cognitive load analysis pipeline, you must first process and merge your raw data using the data merge tool:
+
+```bash
+# Step 1: Merge pilot data sources (REQUIRED)
+python merge_pilot_data.py --data_path path/to/tabular_data.parquet --windowed_data_dir path/to/json_files/
+
+# Step 2: Run the cognitive load analysis
+python cognitive_load_pipeline_v30.py --data merged_data.csv
+```
+
+The data merge tool normalizes pilot IDs, standardizes trial names, and extracts features from windowed physiological data. See [README-data-merge.md](README-data-merge.md) for detailed information on the data preparation process.
+
 ## Key Features
 
 - Robust data preprocessing with leak prevention
@@ -38,17 +52,17 @@ pip install -r requirements.txt
 
 ## Usage
 
-### Basic Usage
+### Basic Usage (after data preparation)
 
 ```bash
-python cognitive_load_pipeline_v30.py --data path/to/your/data.csv
+python cognitive_load_pipeline_v30.py --data merged_data.csv
 ```
 
 ### Advanced Options
 
 ```bash
 python cognitive_load_pipeline_v30.py \
-  --data path/to/your/data.csv \
+  --data merged_data.csv \
   --output results_directory \
   --features 30 \
   --test-size 0.2 \
@@ -59,7 +73,7 @@ python cognitive_load_pipeline_v30.py \
 
 ### Command Line Arguments
 
-- `--data`: Path to the input CSV file (required)
+- `--data`: Path to the merged CSV file (required)
 - `--output`: Directory to store results (default: auto-generated timestamped directory)
 - `--features`: Number of features to select (default: 30)
 - `--test-size`: Proportion of data for testing (default: 0.2)
@@ -70,11 +84,12 @@ python cognitive_load_pipeline_v30.py \
 
 ## Input Data Format
 
-The input CSV file should contain:
+The pipeline expects a preprocessed CSV file from the data merge tool containing:
 
 - A subject identifier column (e.g., `pilot_id`)
 - A cognitive load measure column (e.g., `mental_effort`)
-- Physiological signal data (e.g., EDA, HR, HRV, temperature, etc.)
+- Physiological signal features extracted from raw data
+- Standardized trial information
 
 ## Output
 
@@ -111,6 +126,21 @@ Subject-specific models significantly outperform global models when generalizing
 | Adaptive Transfer | 0.926     | -                |
 
 The negative cross-subject R² indicates that cognitive load patterns are highly individual and resist generalization.
+
+## Data Processing Pipeline
+
+The complete workflow includes:
+
+1. **Data Preparation** (merge_pilot_data.py):
+   - Normalize pilot IDs and standardize trial names
+   - Extract statistical features from windowed physiological data
+   - Merge tabular and windowed data sources
+
+2. **Cognitive Load Analysis** (cognitive_load_pipeline_v30.py):
+   - Feature selection and engineering
+   - Model training and evaluation
+   - Transfer learning optimization
+   - Performance analysis and reporting
 
 ## Requirements
 

@@ -1,0 +1,44 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+.env/
+.venv/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Project specific
+cognitive_load_results_*/
+*.csv
+*.json
+*.pkl
+*.txt
+!requirements.txt
+!README.md
+!LICENSE
+
+# Generated reports
+*.html
+
+# Logs
+*.log
+
+# Temp files
+.DS_Store
+Thumbs.db
